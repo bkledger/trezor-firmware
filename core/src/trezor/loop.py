@@ -62,6 +62,16 @@ def schedule(
     _queue.push(deadline, task, value)
 
 
+def reschedule(task: Task, value: Any, deadline: int) -> None:
+    """Reschedule a task that was already scheduled.
+
+    Does not run finalizers or kill the task. Only removes it from the scheduled queue
+    and re-inserts in a different place.
+    """
+    _queue.discard(task)
+    _queue.push(deadline, task, value)
+
+
 def pause(task: Task, iface: int) -> None:
     """
     Block task on given message interface.  Task is resumed when the interface
