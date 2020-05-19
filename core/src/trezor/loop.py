@@ -96,10 +96,17 @@ def close(task: Task) -> None:
     Unschedule and unblock a task, close it so it can release all resources, and
     call its finalizer.
     """
+    # when closing the currently executing task, the following call will raise
+    # a ValueError: generator already executing
+    task.close()
+
+    # Only proceed to remove the task if the call succeeded, i.e., when closing
+    # a task that is not currently running.
+    # A running task should not be in any of the scheduler queues, but it might have
+    # a finalizer which should execute when the task is finished.
     for iface in _paused:
         _paused[iface].discard(task)
     _queue.discard(task)
-    task.close()
     finalize(task, GeneratorExit())
 
 
