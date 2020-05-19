@@ -61,6 +61,8 @@
 /* size of a Decred witness (without script): 8 amount, 4 block height, 4 block
  * index */
 #define TXSIZE_DECRED_WITNESS 16
+/* support version of Decred script_version */
+#define DECRED_SCRIPT_VERSION 0
 
 static const uint8_t segwit_header[2] = {0, 1};
 
@@ -193,7 +195,7 @@ int compile_output(const CoinInfo *coin, const HDNode *root, TxOutputType *in,
                    TxOutputBinType *out, bool needs_confirm) {
   memzero(out, sizeof(TxOutputBinType));
   out->amount = in->amount;
-  out->decred_script_version = in->decred_script_version;
+  out->decred_script_version = DECRED_SCRIPT_VERSION;
   uint8_t addr_raw[MAX_ADDR_RAW_SIZE] = {0};
   size_t addr_raw_len = 0;
 
@@ -487,7 +489,7 @@ uint32_t tx_output_hash(Hasher *hasher, const TxOutputBinType *output,
   hasher_Update(hasher, (const uint8_t *)&output->amount, 8);
   r += 8;
   if (decred) {
-    uint16_t script_version = output->decred_script_version & 0xFFFF;
+    uint16_t script_version = DECRED_SCRIPT_VERSION & 0xFFFF;
     hasher_Update(hasher, (const uint8_t *)&script_version, 2);
     r += 2;
   }
@@ -738,7 +740,7 @@ uint32_t tx_serialize_output(TxStruct *tx, const TxOutputBinType *output,
   r += 8;
 #if !BITCOIN_ONLY
   if (tx->is_decred) {
-    uint16_t script_version = output->decred_script_version & 0xFFFF;
+    uint16_t script_version = DECRED_SCRIPT_VERSION & 0xFFFF;
     memcpy(out + r, &script_version, 2);
     r += 2;
   }
