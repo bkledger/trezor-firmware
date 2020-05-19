@@ -21,7 +21,7 @@ from apps.common.coininfo import CoinInfo
 from ..writers import TX_HASH_SIZE
 
 if False:
-    from typing import Any, Awaitable, Dict, Union
+    from typing import Any, Awaitable, Dict
     from trezor.messages.TxInputType import EnumTypeInputScriptType
     from trezor.messages.TxOutputType import EnumTypeOutputScriptType
 
