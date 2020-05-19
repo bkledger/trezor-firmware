@@ -38,8 +38,8 @@ _DEFAULT_BACKUP_TYPE       = BackupType.Bip39
 # fmt: on
 
 HOMESCREEN_MAXSIZE = 16384
-AUTOLOCK_DELAY_MINIMUM = 5 * 1000
-AUTOLOCK_DELAY_DEFAULT = 10 * 60 * 1000
+AUTOLOCK_DELAY_MINIMUM = 10 * 1000  # 10 seconds
+AUTOLOCK_DELAY_DEFAULT = 10 * 60 * 1000  # 10 minutes
 
 # Length of SD salt auth tag.
 # Other SD-salt-related constants are in sd_salt.py
